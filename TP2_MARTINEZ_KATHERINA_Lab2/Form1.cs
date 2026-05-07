@@ -75,7 +75,35 @@ namespace TP2_MARTINEZ_KATHERINA_Lab2
             }
 
             double total = productos.Sum(p => p.Precio * p.Stock);
-            lblTotal.Text = "Valor total del inventario: $" + total.ToString("F2");
+            lblTotal.Text = total.ToString("N2");
+        
+            var productoCaro = productos.OrderByDescending(p => p.Precio).FirstOrDefault();
+            if (productoCaro != null)
+            {
+                lblProductoCaro.Text = productoCaro.Nombre + " $" + productoCaro.Precio.ToString("N2") + "";
+            }
+
+            var productoMasStock = productos.OrderByDescending(p => p.Stock).FirstOrDefault();
+            if (productoMasStock != null)
+            {
+                lblProductoMasStock.Text =  productoMasStock.Nombre + " Stock: " + productoMasStock.Stock + "";
+            }
+
+        }
+
+        private void frmRegistro_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText("productos.txt", string.Empty);
+            productos.Clear();
+            dgvProductos.Rows.Clear();
+            lblTotal.Text = "0.00";
+            lblProductoCaro.Text = "...";
+            lblProductoMasStock.Text = "...";
         }
     }
 }
